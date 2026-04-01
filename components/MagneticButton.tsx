@@ -1,75 +1,49 @@
 'use client';
 
-import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
-import { useRef, useState, ReactNode } from 'react';
+import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 
-interface MagneticButtonProps {
-  children: ReactNode;
+export default function MagneticButton({
+  children,
+  className,
+  href,
+}: {
+  children: React.ReactNode;
   className?: string;
   href?: string;
-}
+}) {
+  const ref = useRef<HTMLElement>(null!);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-export default function MagneticButton({ children, className, href }: MagneticButtonProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 };
-  const getX = useSpring(x, springConfig);
-  const getY = useSpring(y, springConfig);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+  const handleMouse = (e: React.MouseEvent<HTMLElement>) => {
     const { clientX, clientY } = e;
-    const { width, height, left, top } = ref.current.getBoundingClientRect();
-    
-    // Calculate distance from center of element
-    const centerPointX = left + width / 2;
-    const centerPointY = top + height / 2;
-    
-    // Magnetic pull distance
-    x.set(clientX - centerPointX);
-    y.set(clientY - centerPointY);
+    const { height, width, left, top } = ref.current.getBoundingClientRect();
+    const middleX = clientX - (left + width / 2);
+    const middleY = clientY - (top + height / 2);
+    // Attract the component 15% towards the cursor
+    setPosition({ x: middleX * 0.15, y: middleY * 0.15 });
   };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    x.set(0);
-    y.set(0);
+  const reset = () => {
+    setPosition({ x: 0, y: 0 });
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
+  const { x, y } = position;
+  const Component = href ? motion.a : motion.div;
 
-  const content = (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        x: getX,
-        y: getY,
-        display: 'inline-block',
-        position: 'relative',
-        cursor: 'pointer' // Actually rely on our global cursor, but as a fallback
-      }}
+  return (
+    <Component
+      // @ts-ignore
+      href={href}
+      ref={ref as any}
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+      animate={{ x, y }}
+      transition={{ type: 'spring', stiffness: 300, damping: 15, mass: 0.5 }}
       className={className}
+      style={{ display: 'inline-flex', cursor: 'pointer' }}
     >
       {children}
-    </motion.div>
+    </Component>
   );
-
-  if (href) {
-    return (
-      <a href={href} style={{ textDecoration: 'none', color: 'inherit' }}>
-        {content}
-      </a>
-    );
-  }
-
-  return content;
 }

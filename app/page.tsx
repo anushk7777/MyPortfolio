@@ -6,6 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HeroSection from '@/components/HeroSection';
 import ProjectGrid from '@/components/ProjectGrid';
 import CustomCursor from '@/components/CustomCursor';
+import BackgroundParticles from '@/components/BackgroundParticles';
+import MagneticButton from '@/components/MagneticButton';
 import { useSmoothScroll } from '@/components/SmoothScroll';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -61,6 +63,7 @@ export default function Home() {
   return (
     <main style={{ backgroundColor: '#000000', minHeight: '100vh', overflowX: 'hidden' }}>
       <CustomCursor />
+      <BackgroundParticles />
 
       {/* ── Navbar ──── */}
       <header style={{
@@ -72,9 +75,11 @@ export default function Home() {
         pointerEvents: 'none', // Allow passing events through to things below except direct children
       }}>
         <div style={{ pointerEvents: 'auto' }}>
-          <a href="#" style={{ fontWeight: 600, fontSize: '1.2rem', letterSpacing: '-0.04em', color: '#fff' }}>
-            A D .
-          </a>
+          <MagneticButton href="#">
+            <span style={{ fontWeight: 600, fontSize: '1.2rem', letterSpacing: '-0.04em', color: '#fff' }}>
+              Anushk Dua.
+            </span>
+          </MagneticButton>
         </div>
         <nav style={{ display: 'flex', gap: '3rem', alignItems: 'center', pointerEvents: 'auto' }}>
           <a href="#projects" className="tag" style={{ color: '#fff' }}>Work</a>
@@ -158,9 +163,9 @@ export default function Home() {
           
           <div data-anim style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
             {links.map((l) => (
-              <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" className="btn-magnetic">
+              <MagneticButton key={l.label} href={l.href} className="btn-magnetic">
                 {l.label} <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1.1rem', marginLeft: '0.75rem' }}>↗</span>
-              </a>
+              </MagneticButton>
             ))}
           </div>
         </div>

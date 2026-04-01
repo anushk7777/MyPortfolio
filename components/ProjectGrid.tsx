@@ -8,24 +8,24 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
+    title: 'MealMan',
+    desc: 'Bio-adaptive PWA tracking metabolic drift through Bayesian regression routines.',
+    tech: ['Next.js', 'Supabase'],
+    href: 'https://worka-out.vercel.app/',
+    id: '01',
+  },
+  {
     title: 'Medicobot',
     desc: 'RAG-powered clinical chatbot bridging LangChain, FAISS, and medical diagnostics.',
     tech: ['Python', 'LangChain', 'FAISS'],
     href: 'https://medical-chatbot-main.vercel.app/',
-    id: '01',
+    id: '02',
   },
   {
     title: 'ATS Scorer',
     desc: 'Resume intelligence layer auditing profiles instantly via Gemini Vision APIs.',
     tech: ['Next.js', 'Gemini'],
     href: 'https://ats-scorer-ai.vercel.app/',
-    id: '02',
-  },
-  {
-    title: 'MealMan',
-    desc: 'Bio-adaptive PWA tracking metabolic drift through Bayesian regression routines.',
-    tech: ['Next.js', 'Supabase'],
-    href: 'https://worka-out.vercel.app/',
     id: '03',
   },
 ];
