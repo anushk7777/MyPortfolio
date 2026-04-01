@@ -114,7 +114,7 @@ export default function Home() {
                 </div>
 
                 {/* Description */}
-                <div style={{ flex: 2, display: 'none', '@media (min-width: 768px)': { display: 'block' } } as React.CSSProperties}>
+                <div className="desktop-only" style={{ flex: 2 }}>
                   <p style={{ color: 'var(--muted)', fontSize: '1.05rem', lineHeight: 1.6, maxWidth: 460 }}>
                     {e.desc}
                   </p>
@@ -135,7 +135,7 @@ export default function Home() {
                   Manipal University
                 </div>
               </div>
-              <div style={{ flex: 2, display: 'none', '@media (min-width: 768px)': { display: 'block' } } as React.CSSProperties}>
+              <div className="desktop-only" style={{ flex: 2 }}>
                 <p style={{ color: 'var(--muted)', fontSize: '1.05rem', lineHeight: 1.6, maxWidth: 460 }}>
                   BTech in Computer Science & Communication. Dean&apos;s List. Strong foundation in distributed systems and systems architecture.
                 </p>

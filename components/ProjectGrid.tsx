@@ -80,7 +80,7 @@ export default function ProjectGrid() {
               </div>
 
               {/* Description */}
-              <div style={{ flex: 2, display: 'none', '@media (min-width: 768px)': { display: 'block' } } as React.CSSProperties}>
+              <div className="desktop-only" style={{ flex: 2 }}>
                 <p style={{ color: 'var(--muted)', fontSize: '1.05rem', lineHeight: 1.6, maxWidth: 460 }}>
                   {p.desc}
                 </p>

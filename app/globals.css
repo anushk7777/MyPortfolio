@@ -126,6 +126,16 @@ a {
   text-transform: uppercase;
 }
 
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-only {
+    display: block;
+  }
+}
+
 /* ─── Minimal Buttons ───── */
 .btn-magnetic {
   display: inline-flex;
