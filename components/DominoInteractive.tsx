@@ -119,8 +119,8 @@ export default function DominoInteractive() {
           {/* The Slingshot Projectile (Glowing Orb) */}
           <motion.div
             drag={gameState === 'idle' || gameState === 'dragging'}
-            dragConstraints={{ right: 0, top: -50, bottom: 50, left: -100 }}
-            dragElastic={0.2}
+            dragConstraints={{ right: 0, top: -60, bottom: 60, left: -200 }}
+            dragElastic={0.1}
             onDragStart={() => setGameState('dragging')}
             onDragEnd={handleDragEnd}
             animate={ballControls}
@@ -131,10 +131,21 @@ export default function DominoInteractive() {
               background: '#ffffff',
               cursor: (gameState === 'idle' || gameState === 'dragging') ? 'grab' : 'default',
               zIndex: 10,
-              // Move the bounding box slightly up to align with the domino center height
               marginBottom: '15px' 
             }}
-            whileTap={{ cursor: 'grabbing', scale: 1.2 }}
+            whileDrag={{ 
+              scale: 1.1,
+              // Subtle high-frequency vibration to simulate tension
+              x: [0, -1, 1, -1, 1, 0],
+              transition: { 
+                x: {
+                  repeat: Infinity,
+                  duration: 0.08,
+                  ease: "linear"
+                }
+              }
+            }}
+            whileTap={{ cursor: 'grabbing' }}
           />
        </div>
        
