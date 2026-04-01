@@ -116,37 +116,40 @@ export default function DominoInteractive() {
              {gameState === 'flyingMiss' ? '[ MISSED ]' : '[ PULL ORB ]'}
           </span>
           
-          {/* The Slingshot Projectile (Glowing Orb) */}
+          {/* The Slingshot Projectile (Glowing Orb with a larger invisible hit area) */}
           <motion.div
             drag={gameState === 'idle' || gameState === 'dragging'}
             dragConstraints={{ right: 0, top: -60, bottom: 60, left: -200 }}
-            dragElastic={0.1}
+            dragElastic={0.15}
             onDragStart={() => setGameState('dragging')}
             onDragEnd={handleDragEnd}
             animate={ballControls}
             style={{
-              width: '12px',
-              height: '12px',
-              borderRadius: '50%',
-              background: '#ffffff',
+              padding: '14px', // Increase hit area of the orb
               cursor: (gameState === 'idle' || gameState === 'dragging') ? 'grab' : 'default',
               zIndex: 10,
-              marginBottom: '15px' 
-            }}
-            whileDrag={{ 
-              scale: 1.1,
-              // Subtle high-frequency vibration to simulate tension
-              x: [0, -1, 1, -1, 1, 0],
-              transition: { 
-                x: {
-                  repeat: Infinity,
-                  duration: 0.08,
-                  ease: "linear"
-                }
-              }
+              marginBottom: '1px' // Align with dominos
             }}
             whileTap={{ cursor: 'grabbing' }}
-          />
+          >
+            {/* The visual orb that vibrates without breaking drag mathematically */}
+            <motion.div 
+               style={{
+                 width: '12px',
+                 height: '12px',
+                 borderRadius: '50%',
+                 background: '#ffffff',
+               }}
+               animate={gameState === 'dragging' ? { 
+                 x: [-1, 1, -1, 1, 0], 
+                 y: [-1, 1, -1, 1, 0] 
+               } : { x: 0, y: 0 }}
+               transition={gameState === 'dragging' ? {
+                 repeat: Infinity,
+                 duration: 0.05,
+               } : {}}
+            />
+          </motion.div>
        </div>
        
        {/* The Target Dominos */}
