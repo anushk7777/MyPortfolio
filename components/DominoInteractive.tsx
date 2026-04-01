@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function DominoInteractive() {
   const [fallen, setFallen] = useState(false);
@@ -11,6 +11,11 @@ export default function DominoInteractive() {
   // 5 dominos for a satisfying chain reaction
   const DOMINO_COUNT = 5;
   const dominos = Array.from({ length: DOMINO_COUNT });
+
+  useEffect(() => {
+    // Actively prefetch the target page so it is instantly available in memory
+    router.prefetch('/hire-me');
+  }, [router]);
 
   const handleStrike = () => {
     if (fallen) return;
@@ -22,11 +27,8 @@ export default function DominoInteractive() {
       document.body.style.opacity = '0';
       
       setTimeout(() => {
+        // Push the route. The new page's mount effect will handle fading the body back in ensuring zero flash.
         router.push('/hire-me');
-        setTimeout(() => {
-          document.body.style.transition = 'none';
-          document.body.style.opacity = '1';
-        }, 100);
       }, 600);
     }, 1400); // Wait 1.4s for the full chain to fall and settle
   };
