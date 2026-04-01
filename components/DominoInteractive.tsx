@@ -55,18 +55,16 @@ export default function DominoInteractive() {
           opacity: 0,
           transition: { type: 'spring', stiffness: 300, damping: 15 }
         });
-      }, flightDuration * 1000);
-      
-      // Let the full cascade play out before page transition
-      setTimeout(() => {
-        document.body.style.transition = 'opacity 0.8s ease';
+
+        // ELEGANT TRANSITION: Start the fade-to-black IMMEDIATELY as they start falling
+        // This creates a professional 'cinematic cut' feel.
+        document.body.style.transition = 'opacity 0.4s ease-out';
         document.body.style.opacity = '0';
         
         setTimeout(() => {
           router.push('/hire-me');
-        }, 800);
-      }, (flightDuration * 1000) + 1800); 
-      
+        }, 450); // Route just as the fade completes
+      }, flightDuration * 1000);      
     } else {
       // MISS CRITERIA: Too weak or bad angle
       setGameState('flyingMiss');
