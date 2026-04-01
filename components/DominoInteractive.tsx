@@ -24,54 +24,58 @@ export default function DominoInteractive() {
     // If we're already animating a flight, ignore
     if (gameState === 'flyingHit' || gameState === 'flyingMiss' || gameState === 'fallen') return;
 
-    // The user pulls the slingshot backwards (negative X). They are aiming towards the right (+X).
     const pulledX = info.offset.x;
     const pulledY = info.offset.y;
 
-    // SUCCESS CRITERIA: 
-    // They must pull back horizontally at least -40px. 
-    // Their vertical aim must not be wildly off-target (Math.abs(y) < 45).
-    const isGoodHit = pulledX < -40 && Math.abs(pulledY) < 45;
+    // PRECISION AIMING: Must pull back significantly (-60px) and aim extremely straight (Y variance < 20px).
+    const isGoodHit = pulledX < -60 && Math.abs(pulledY) < 20;
 
     if (isGoodHit) {
       setGameState('flyingHit');
       
-      // Animate the ball snapping forward like a slingshot release and striking the first domino
+      // Animate the ball snapping forward and striking the first domino EXACTLY.
+      // 40px is about the gap distance to the first domino face.
       await ballControls.start({
-        x: 60, // Fly into the first domino gap
-        y: -pulledY * 0.8, // Slightly follow the Y trajectory opposite to the drag
-        transition: { type: 'spring', stiffness: 600, damping: 15 }
+        x: 40, 
+        y: 0, 
+        transition: { type: 'spring', stiffness: 700, damping: 10 }
       });
       
-      // Ball hides after hit to simulate it shattering or falling behind
-      ballControls.start({ opacity: 0, transition: { duration: 0.2 } });
+      // Physical Strike: The ball bounces off the domino and falls down
+      ballControls.start({
+        x: 20,
+        y: 60, // Falls to the floor
+        opacity: 0, // slowly fades after hitting the floor
+        transition: { type: 'spring', stiffness: 200, damping: 15, delay: 0.05, opacity: { delay: 0.3 } }
+      });
 
-      // Trigger the domino cascade fall
+      // Trigger the domino cascade fall right when the ball hits
       setGameState('fallen');
       
-      // Wait for the domino cascade to finish (0.12s delay per domino + animation time)
+      // Let the user strictly enjoy the entire 5 sequential domino fall (takes about ~1 second total)
+      // We will wait a full 1.8 seconds before triggering the page transition overlay to avoid "snappiness".
       setTimeout(() => {
-        document.body.style.transition = 'opacity 0.6s ease';
+        document.body.style.transition = 'opacity 0.8s ease';
         document.body.style.opacity = '0';
         
         setTimeout(() => {
           router.push('/hire-me');
-        }, 600);
-      }, 1400); // 1.4s total wait
+        }, 800);
+      }, 1800); 
       
     } else {
       // MISS CRITERIA: Too weak or bad angle
       setGameState('flyingMiss');
       
-      // Ball weakly drops or flies off target
+      // Ball weakly drops or flies off target due to bad physics
       await ballControls.start({
-        x: -pulledX * 0.5, // Snap forward minimally
-        y: 80, // Drop to the "ground"
+        x: -pulledX * 0.3, // Snap forward minimally
+        y: 80, // Drop
         opacity: 0,
-        transition: { type: 'spring', stiffness: 200, damping: 20 }
+        transition: { type: 'spring', stiffness: 150, damping: 20 }
       });
 
-      // Reset the mini-game after a failure so they can try again
+      // Reset the mini-game
       setTimeout(() => {
         ballControls.set({ x: 0, y: 0, opacity: 1 });
         setGameState('idle');
@@ -121,7 +125,6 @@ export default function DominoInteractive() {
               borderRadius: '50%',
               background: '#ffffff',
               cursor: (gameState === 'idle' || gameState === 'dragging') ? 'grab' : 'default',
-              boxShadow: '0 0 12px rgba(255,255,255,1)',
               zIndex: 10,
               // Move the bounding box slightly up to align with the domino center height
               marginBottom: '15px' 
