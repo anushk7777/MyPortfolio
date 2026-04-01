@@ -56,14 +56,17 @@ export default function DominoInteractive() {
           transition: { type: 'spring', stiffness: 300, damping: 15 }
         });
 
-        // ELEGANT TRANSITION: Start the fade-to-black IMMEDIATELY as they start falling
-        // This creates a professional 'cinematic cut' feel.
-        document.body.style.transition = 'opacity 0.4s ease-out';
-        document.body.style.opacity = '0';
-        
+        // ELEGANT TRANSITION: Wait for the EXACT moment the final domino hits the ground.
+        // The last domino starts at 0.48s and finishes falling around 1.0s.
         setTimeout(() => {
-          router.push('/hire-me');
-        }, 450); // Route just as the fade completes
+          document.body.style.transition = 'opacity 0.6s ease';
+          document.body.style.opacity = '0';
+          
+          setTimeout(() => {
+            router.push('/hire-me');
+          }, 600); // Route just after the fade completes
+        }, 1100); // 1.1s wait for all dominos to fall
+
       }, flightDuration * 1000);      
     } else {
       // MISS CRITERIA: Too weak or bad angle
