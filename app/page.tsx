@@ -8,6 +8,7 @@ import ProjectGrid from '@/components/ProjectGrid';
 import CustomCursor from '@/components/CustomCursor';
 import BackgroundParticles from '@/components/BackgroundParticles';
 import MagneticButton from '@/components/MagneticButton';
+import DominoInteractive from '@/components/DominoInteractive';
 import { useSmoothScroll } from '@/components/SmoothScroll';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -178,11 +179,16 @@ export default function Home() {
       }}>
         <div className="container" style={{
           display: 'flex', justifyContent: 'space-between',
-          alignItems: 'center', flexWrap: 'wrap', gap: '1rem',
-          borderTop: '1px solid #111', paddingTop: '2rem'
+          alignItems: 'center', flexWrap: 'wrap', gap: '2rem',
+          borderTop: '1px solid #111', paddingTop: '3rem', paddingBottom: '3rem'
         }}>
           <span style={{ fontSize: '0.85rem', color: '#555', letterSpacing: '-0.02em' }}>Anushk Dua © 2026</span>
-          <span className="mono" style={{ fontSize: '0.65rem', color: '#444' }}>Engineered with Next.js, Framer Motion, GSAP, and Lenis</span>
+          
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+             <DominoInteractive />
+          </div>
+
+          <span className="mono" style={{ fontSize: '0.65rem', color: '#444', textAlign: 'right' }}>Engineered with Next.js, <br/>Framer Motion, GSAP, and Lenis</span>
         </div>
       </footer>
     </main>
