@@ -33,27 +33,31 @@ export default function DominoInteractive() {
     if (isGoodHit) {
       setGameState('flyingHit');
       
-      // Animate the ball snapping forward and striking the first domino EXACTLY.
-      // 40px is about the gap distance to the first domino face.
-      await ballControls.start({
-        x: 40, 
-        y: 0, 
-        transition: { type: 'spring', stiffness: 700, damping: 10 }
-      });
-      
-      // Physical Strike: The ball bounces off the domino and falls down
-      ballControls.start({
-        x: 20,
-        y: 60, // Falls to the floor
-        opacity: 0, // slowly fades after hitting the floor
-        transition: { type: 'spring', stiffness: 200, damping: 15, delay: 0.05, opacity: { delay: 0.3 } }
-      });
+      const flightDuration = 0.15; // 150ms fast strike
+      const impactX = 65; // Precise distance across the gap to the domino face
 
-      // Trigger the domino cascade fall right when the ball hits
-      setGameState('fallen');
+      // Shoot the ball
+      ballControls.start({
+        x: impactX, 
+        y: 0, 
+        transition: { duration: flightDuration, ease: 'easeIn' }
+      });
       
-      // Let the user strictly enjoy the entire 5 sequential domino fall (takes about ~1 second total)
-      // We will wait a full 1.8 seconds before triggering the page transition overlay to avoid "snappiness".
+      // Moment of impact
+      setTimeout(() => {
+        // Trigger the domino cascade the instant the ball hits
+        setGameState('fallen');
+        
+        // Physical Strike: Recoil bounce off the hard domino
+        ballControls.start({
+          x: impactX - 15,
+          y: 60, 
+          opacity: 0,
+          transition: { type: 'spring', stiffness: 300, damping: 15 }
+        });
+      }, flightDuration * 1000);
+      
+      // Let the full cascade play out before page transition
       setTimeout(() => {
         document.body.style.transition = 'opacity 0.8s ease';
         document.body.style.opacity = '0';
@@ -61,7 +65,7 @@ export default function DominoInteractive() {
         setTimeout(() => {
           router.push('/hire-me');
         }, 800);
-      }, 1800); 
+      }, (flightDuration * 1000) + 1800); 
       
     } else {
       // MISS CRITERIA: Too weak or bad angle
