@@ -10,6 +10,7 @@ import BackgroundParticles from '@/components/BackgroundParticles';
 import MagneticButton from '@/components/MagneticButton';
 import DominoInteractive from '@/components/DominoInteractive';
 import { useSmoothScroll } from '@/components/SmoothScroll';
+import SpotifyWidget from '@/components/SpotifyWidget';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,11 +22,26 @@ const exp = [
     desc: 'Shipped ATS Scorer. NLP pipelines with Gemini Vision, robust error tracking, rapid feature iteration in production.',
   },
   {
-    company: 'Emanate Community',
+    company: 'Manipal University',
+    role: 'BTech Student',
+    period: '2022 — 2026',
+    desc: 'Dean\'s List. Strong foundation in distributed systems and systems architecture.',
+  }
+];
+
+const extraList = [
+  {
+    org: 'Emanate Community',
     role: 'Co-Founder',
     period: '2024',
     desc: 'Bootstrapped a 200+ member tech collective. Facilitated AR, blockchain, and quantitative analysis workshops.',
   },
+  {
+    org: 'Open Source / Clubs',
+    role: 'Contributor',
+    period: '2023 — Present',
+    desc: 'Active contributor to campus technical clubs and open source repositories focused on AI and full-stack development.',
+  }
 ];
 
 const links = [
@@ -95,54 +111,58 @@ export default function Home() {
       {/* ── Projects ──── */}
       <ProjectGrid />
 
-      {/* ── Experience ──── */}
+      {/* ── Experience & Extra ──── */}
       <section id="experience" style={{ padding: '8rem 0' }}>
         <div className="container" ref={expRef}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: '4rem' }}>
-            <h2 className="section-heading">Career</h2>
+            <h2 className="section-heading">Background</h2>
             <span className="mono" style={{ paddingBottom: '0.5rem' }}>// 02</span>
           </div>
 
-          <div style={{ borderTop: '1px solid var(--border)' }}>
-            {exp.map((e) => (
-              <div key={e.company} className="list-row" style={{ opacity: 0 }}>
-                {/* ID & Title */}
-                <div style={{ flex: 1.5 }}>
-                  <div className="list-row-title" style={{ fontSize: 'clamp(1.2rem, 2.5vw, 2rem)' }}>
-                    {e.company}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '4rem' }}>
+            {/* Career Column */}
+            <div>
+              <h3 className="mono" style={{ marginBottom: '2rem', color: 'var(--muted)' }}>[ Career & Education ]</h3>
+              <div style={{ borderTop: '1px solid var(--border)' }}>
+                {exp.map((e) => (
+                  <div key={e.company} className="list-row" style={{ opacity: 0, flexDirection: 'column', alignItems: 'flex-start', padding: '2rem 0' }}>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                      <div className="list-row-title" style={{ fontSize: 'clamp(1.2rem, 2vw, 1.5rem)' }}>
+                        {e.company}
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <span className="mono" style={{ fontSize: '0.65rem', display: 'block', marginBottom: '0.25rem' }}>{e.period}</span>
+                        <span className="tag" style={{ color: 'var(--fg)', fontSize: '0.7rem' }}>{e.role}</span>
+                      </div>
+                    </div>
+                    <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.6 }}>
+                      {e.desc}
+                    </p>
                   </div>
-                </div>
-
-                {/* Description */}
-                <div className="desktop-only" style={{ flex: 2 }}>
-                  <p style={{ color: 'var(--muted)', fontSize: '1.05rem', lineHeight: 1.6, maxWidth: 460 }}>
-                    {e.desc}
-                  </p>
-                </div>
-
-                {/* Tech Tags */}
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', flexDirection: 'column', alignItems: 'flex-end' }}>
-                  <span className="tag" style={{ color: 'var(--fg)', marginBottom: '0.5rem' }}>{e.role}</span>
-                  <span className="mono" style={{ fontSize: '0.65rem' }}>{e.period}</span>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
 
-            {/* Education Row */}
-            <div className="list-row" style={{ opacity: 0 }}>
-              <div style={{ flex: 1.5 }}>
-                <div className="list-row-title" style={{ fontSize: 'clamp(1.2rem, 2.5vw, 2rem)' }}>
-                  Manipal University
-                </div>
-              </div>
-              <div className="desktop-only" style={{ flex: 2 }}>
-                <p style={{ color: 'var(--muted)', fontSize: '1.05rem', lineHeight: 1.6, maxWidth: 460 }}>
-                  BTech in Computer Science & Communication. Dean&apos;s List. Strong foundation in distributed systems and systems architecture.
-                </p>
-              </div>
-              <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <span className="tag" style={{ color: 'var(--fg)', marginBottom: '0.5rem' }}>Student</span>
-                <span className="mono" style={{ fontSize: '0.65rem' }}>2022 — 2026</span>
+            {/* Extracurriculars Column */}
+            <div>
+              <h3 className="mono" style={{ marginBottom: '2rem', color: 'var(--muted)' }}>[ Extracurriculars ]</h3>
+              <div style={{ borderTop: '1px solid var(--border)' }}>
+                {extraList.map((e) => (
+                  <div key={e.org} className="list-row" style={{ opacity: 0, flexDirection: 'column', alignItems: 'flex-start', padding: '2rem 0' }}>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                      <div className="list-row-title" style={{ fontSize: 'clamp(1.2rem, 2vw, 1.5rem)' }}>
+                        {e.org}
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <span className="mono" style={{ fontSize: '0.65rem', display: 'block', marginBottom: '0.25rem' }}>{e.period}</span>
+                        <span className="tag" style={{ color: 'var(--fg)', fontSize: '0.7rem' }}>{e.role}</span>
+                      </div>
+                    </div>
+                    <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.6 }}>
+                      {e.desc}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -157,9 +177,15 @@ export default function Home() {
               <span className="mono" data-anim style={{ display: 'block', marginBottom: '1rem' }}>// 03 — Connect</span>
               <h2 className="section-heading" data-anim style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}>Talk to me.</h2>
             </div>
-            <p data-anim style={{ color: 'var(--muted)', fontSize: '1.1rem', lineHeight: 1.7, maxWidth: 360 }}>
-              Building something with uncompromising standards? Looking for an engineer who cares about architecture? Drop an email.
-            </p>
+            <div data-anim style={{ display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'flex-start' }}>
+              <p style={{ color: 'var(--muted)', fontSize: '1.1rem', lineHeight: 1.7, maxWidth: 360 }}>
+                Building something with uncompromising standards? Looking for an engineer who cares about architecture? Drop an email.
+              </p>
+              <div style={{ width: '100%', maxWidth: '360px' }}>
+                <span className="mono" style={{ fontSize: '0.7rem', opacity: 0.8, color: 'var(--fg)', display: 'block', marginBottom: '0.75rem', letterSpacing: '0.1em' }}>// SONIC ARCHITECTURE — SANG & PRODUCED</span>
+                <SpotifyWidget />
+              </div>
+            </div>
           </div>
           
           <div data-anim style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
