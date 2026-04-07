@@ -15,18 +15,25 @@ const projects = [
     id: '01',
   },
   {
+    title: 'Flash UI',
+    desc: 'Create UI and its components with a single click via Gemini APIs.',
+    tech: ['TypeScript', 'Vite', 'Gemini'],
+    href: 'https://flash-ui-remix.vercel.app/',
+    id: '02',
+  },
+  {
     title: 'Medicobot',
     desc: 'RAG-powered clinical chatbot bridging LangChain, FAISS, and medical diagnostics.',
     tech: ['Python', 'LangChain', 'FAISS'],
     href: 'https://medical-chatbot-main.vercel.app/',
-    id: '02',
+    id: '03',
   },
   {
     title: 'ATS Scorer',
     desc: 'Resume intelligence layer auditing profiles instantly via Gemini Vision APIs.',
     tech: ['Next.js', 'Gemini'],
     href: 'https://ats-scorer-ai.vercel.app/',
-    id: '03',
+    id: '04',
   },
 ];
 
